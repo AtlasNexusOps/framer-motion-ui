@@ -1,236 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" class="scroll-smooth">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Framer Motion UI — Animated Patterns Demo</title>
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/framer-motion@11/dist/framer-motion.js"></script>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<title>Framer Motion UI — Atlas Nexus</title>
+<link rel="canonical" href="https://atlasnexus.tech/framer-motion-ui/">
+<meta name="description" content="Page interne Atlas Nexus pour Framer Motion UI : patterns d’animation React, scroll reveals, gestures, transitions et delivery checklist.">
 <script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400;1,6..12,600;1,6..12,700&display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+  darkMode: 'class',
+  theme: { extend: { fontFamily: { display: ['Rubik','sans-serif'], body: ['Nunito Sans','sans-serif'] }, colors: { primary:'#2563EB','primary-dark':'#1D4ED8', secondary:'#3B82F6', accent:'#059669','accent-dark':'#047857', surface:'#F8FAFC', muted:'#F1F5FD', border:'#E4ECFC', foreground:'#0F172A','dark-surface':'#0B1120','dark-card':'#111827','dark-elevated':'#1A2235','dark-border':'#1E293B','dark-muted':'#334155','dark-foreground':'#F1F5F9','dark-dim':'#94A3B8' } } }
+}
+</script>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { background: #080b16; color: #e2e8f0; font-family: 'Inter', system-ui, -apple-system, sans-serif; overflow-x: hidden; }
-  ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: #0f1420; }
-  ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+  .hero-title { font-size: clamp(2.45rem, 6.6vw, 5.15rem); font-weight: 900; letter-spacing: -0.055em; line-height: 1.08; overflow: visible; }
+  .gradient-text { background: linear-gradient(135deg, #2563EB 0%, #059669 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .glow-word { position: relative; display: inline-block; overflow: visible; padding: .035em .02em .13em .02em; margin: -.035em -.02em -.07em -.02em; background: linear-gradient(110deg, #0F172A 0%, #2563EB 32%, #7C3AED 56%, #059669 82%, #0F172A 100%); background-size: 240% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: agenticGlow 3.8s ease-in-out infinite; }
+  @keyframes agenticGlow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+  .section-title { font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
+  .card-hover { transition: all 250ms ease; }
+  .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 32px -6px rgba(37,99,235,0.1); border-color: #2563EB; }
+  a, button, .card-hover { transition: all 200ms ease; }
+  *:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; border-radius: 4px; }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .hero-stagger > * { opacity: 0; transform: translateY(30px); animation: heroFadeIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
+  .hero-stagger > *:nth-child(1) { animation-delay: 0.1s; }
+  .hero-stagger > *:nth-child(2) { animation-delay: 0.25s; }
+  .hero-stagger > *:nth-child(3) { animation-delay: 0.40s; }
+  .hero-stagger > *:nth-child(4) { animation-delay: 0.55s; }
+  @keyframes heroFadeIn { to { opacity: 1; transform: translateY(0); } }
+  .framer-purple-card { position: relative; overflow: hidden; border-color: rgba(124,58,237,.24)!important; box-shadow: 0 18px 52px -34px rgba(124,58,237,.58); background: linear-gradient(145deg, #ffffff 0%, #fbf7ff 52%, #f5efff 100%); }
+  .framer-purple-card::before { content: ""; position: absolute; inset: -1px; pointer-events: none; background: radial-gradient(circle at 15% 0%, rgba(124,58,237,.13), transparent 38%), radial-gradient(circle at 95% 20%, rgba(168,85,247,.10), transparent 34%); }
+  .framer-purple-card:hover { box-shadow: 0 22px 70px -32px rgba(124,58,237,.68); border-color: rgba(124,58,237,.40)!important; }
+  .framer-purple-card > * { position: relative; }
+  .market-card { background: linear-gradient(145deg, #ffffff 0%, #f7fbff 52%, #eef8ff 100%); border-color: rgba(37,99,235,.22)!important; box-shadow: 0 18px 52px -34px rgba(37,99,235,.55); }
+  .motion-dot { width: .65rem; height: .65rem; border-radius: 999px; background: linear-gradient(135deg,#2563EB,#7C3AED); box-shadow: 0 0 0 8px rgba(37,99,235,.08); }
+  .orbit { position:absolute; border:1px solid rgba(124,58,237,.22); border-radius:999px; animation:spin 16s linear infinite; }
+  .orbit:nth-child(2){animation-duration:22s; animation-direction:reverse; border-color:rgba(5,150,105,.18)}
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .dark .bg-white, .dark .bg-surface { background-color: #0B1120; }
+  .dark .text-slate-600 { color: #CBD5E1; }
+  .dark .text-slate-500 { color: #94A3B8; }
+  .dark .text-slate-400 { color: #64748B; }
+  .dark .border-border { border-color: #1E293B; }
+  .dark .glow-word { background: linear-gradient(110deg, #60A5FA 0%, #818CF8 28%, #C084FC 52%, #34D399 78%, #60A5FA 100%); background-size: 240% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .dark .framer-purple-card { background: linear-gradient(145deg, #111827 0%, #1a1530 52%, #241442 100%); border-color: rgba(167,139,250,.28)!important; box-shadow: 0 18px 52px -34px rgba(0,0,0,.6); }
+  .dark .market-card { background: linear-gradient(145deg, #111827 0%, #111d30 52%, #0e1f2d 100%); border-color: rgba(59,130,246,.25)!important; box-shadow: 0 18px 52px -34px rgba(0,0,0,.6); }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms!important; transition-duration: 0.01ms!important; } .reveal { opacity: 1; transform: none; } .hero-stagger > * { opacity: 1; transform: none; animation: none; } }
 </style>
 </head>
-<body>
-<div id="root"></div>
+<body class="font-body bg-white dark:bg-dark-surface text-foreground dark:text-dark-foreground antialiased overflow-x-hidden">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-dark-surface/90 backdrop-blur-xl border-b border-border dark:border-dark-border">
+  <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-2 font-display font-bold text-lg" aria-label="Atlas Nexus accueil">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="text-primary"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.7 6.7 0 1 0 9.8 9.8Z" fill="currentColor"/></svg>
+      Atlas Nexus
+    </a>
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
+      <a href="/#products" class="hover:text-primary">Produits</a>
+      <a href="/#work" class="hover:text-primary">Réalisations</a>
+      <a href="/#offers" class="hover:text-primary">Offres</a>
+      <a href="#patterns" class="hover:text-primary">Patterns</a>
+    </div>
+    <div class="flex items-center gap-3">
+      <a href="https://github.com/AtlasNexusOps/framer-motion-ui" class="hidden sm:inline-flex text-sm font-semibold text-primary hover:text-primary-dark">GitHub</a>
+      <button id="theme-toggle" class="p-2 rounded-lg hover:bg-muted dark:hover:bg-dark-elevated" aria-label="Toggle dark mode"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg></button>
+    </div>
+  </div>
+</nav>
+<main class="pt-16">
+  <section class="relative overflow-hidden py-8 md:py-10 bg-gradient-to-br from-white via-purple-50/50 to-blue-50/40 dark:from-dark-surface dark:via-dark-card dark:to-dark-elevated">
+    <div class="absolute -right-24 top-24 w-96 h-96 rounded-full bg-purple-500/10 blur-3xl"></div>
+    <div class="absolute -left-24 bottom-10 w-96 h-96 rounded-full bg-primary/10 blur-3xl"></div>
+    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1.05fr_.95fr] gap-8 items-center relative">
+      <div class="hero-stagger">
+        <p class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 text-purple-700 dark:text-purple-300 font-display font-bold text-sm mb-4">✨ Framer Motion UI · Atlas Nexus</p>
+        <h1 class="hero-title font-display mb-4">Des interfaces React qui <span class="glow-word">respirent</span></h1>
+        <p class="text-xl md:text-2xl text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl mb-6">Patterns Framer Motion intégrés dans la même interface AtlasNexus : entrées, scroll reveals, parallax, gestures, counters et transitions utilisables pour des pages commerciales crédibles.</p>
+        <div class="flex flex-wrap gap-4">
+          <a href="#patterns" class="px-6 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary-dark shadow-lg shadow-blue-500/20">Voir les patterns</a>
+          <a href="https://github.com/AtlasNexusOps/framer-motion-ui" class="px-6 py-3 rounded-xl bg-white dark:bg-dark-card border border-border dark:border-dark-border font-bold hover:border-primary">Ouvrir GitHub</a>
+        </div>
+      </div>
+      <div class="framer-purple-card rounded-3xl p-5 md:p-6 border min-h-[300px] flex flex-col justify-between">
+        <div class="relative h-36 md:h-40 rounded-2xl bg-white/70 dark:bg-dark-card/70 border border-border dark:border-dark-border overflow-hidden mb-4">
+          <div class="orbit left-1/2 top-1/2 w-52 h-52 -ml-26 -mt-26"></div>
+          <div class="orbit left-1/2 top-1/2 w-32 h-32 -ml-16 -mt-16"></div>
+          <div class="absolute inset-0 grid place-items-center">
+            <div class="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary via-purple-500 to-accent shadow-2xl shadow-purple-500/30 rotate-6 grid place-items-center text-white font-display font-black text-3xl">FM</div>
+          </div>
+          <div class="absolute left-8 top-8 motion-dot"></div><div class="absolute right-10 top-16 motion-dot"></div><div class="absolute left-16 bottom-10 motion-dot"></div><div class="absolute right-20 bottom-8 motion-dot"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div class="rounded-2xl bg-white/80 dark:bg-dark-card/80 border border-border dark:border-dark-border p-4"><p class="text-2xl font-display font-black text-primary">11</p><p class="text-xs text-slate-600 dark:text-slate-300 font-semibold">patterns</p></div>
+          <div class="rounded-2xl bg-white/80 dark:bg-dark-card/80 border border-border dark:border-dark-border p-4"><p class="text-2xl font-display font-black text-purple-600 dark:text-purple-300">60</p><p class="text-xs text-slate-600 dark:text-slate-300 font-semibold">FPS cible</p></div>
+          <div class="rounded-2xl bg-white/80 dark:bg-dark-card/80 border border-border dark:border-dark-border p-4"><p class="text-2xl font-display font-black text-accent">0</p><p class="text-xs text-slate-600 dark:text-slate-300 font-semibold">jank visé</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="patterns" class="py-12 md:py-14 bg-white dark:bg-dark-surface">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="mb-12 reveal"><p class="text-primary font-display font-bold uppercase tracking-wide text-sm mb-3">Patterns</p><h2 class="section-title font-display">Même UI Atlas, mouvement utile.</h2><p class="mt-4 text-lg text-slate-600 dark:text-slate-300 max-w-3xl">La page n’est plus un template sombre séparé : elle reprend la grille, les cards, le header, les typographies et le rythme visuel du site principal.</p></div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <article class="reveal card-hover rounded-2xl p-6 border border-border dark:border-dark-border bg-surface dark:bg-dark-card"><div class="text-3xl mb-4">🎯</div><h3 class="font-display font-bold text-lg mb-2">Entrance</h3><p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Stagger d’apparition pour hiérarchiser la lecture dès le chargement.</p></article>
+        <article class="reveal card-hover rounded-2xl p-6 border border-border dark:border-dark-border bg-surface dark:bg-dark-card"><div class="text-3xl mb-4">📜</div><h3 class="font-display font-bold text-lg mb-2">Scroll reveals</h3><p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Sections révélées au scroll sans casser l’accessibilité ni le rythme.</p></article>
+        <article class="reveal card-hover rounded-2xl p-6 border border-border dark:border-dark-border bg-surface dark:bg-dark-card"><div class="text-3xl mb-4">🖱️</div><h3 class="font-display font-bold text-lg mb-2">Gestures</h3><p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Hover/tap avec feedback tactile sobre, compatible pages business.</p></article>
+        <article class="reveal card-hover rounded-2xl p-6 border border-border dark:border-dark-border bg-surface dark:bg-dark-card"><div class="text-3xl mb-4">🔄</div><h3 class="font-display font-bold text-lg mb-2">Transitions</h3><p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">Mount/unmount et transitions de pages pensées comme continuité.</p></article>
+      </div>
+    </div>
+  </section>
+  <section class="py-12 md:py-14 bg-surface dark:bg-dark-elevated">
+    <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-[.95fr_1.05fr] gap-8 items-start">
+      <div class="reveal"><p class="text-purple-600 dark:text-purple-300 font-display font-bold uppercase tracking-wide text-sm mb-3">Delivery checklist</p><h2 class="section-title font-display mb-5">Animation vendable, pas décorative.</h2><p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">Chaque pattern doit guider l’attention, communiquer un état, créer une continuité ou réduire la friction. Sinon, il sort du scope.</p></div>
+      <div class="market-card rounded-3xl p-7 border">
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div class="rounded-2xl bg-white/80 dark:bg-dark-card/80 border border-border dark:border-dark-border p-5"><p class="font-display font-bold mb-2">Performance</p><p class="text-sm text-slate-600 dark:text-slate-300">Transform + opacity, pas de reflow inutile.</p></div>
+          <div class="rounded-2xl bg-white/80 dark:bg-dark-card/80 border border-border dark:border-dark-border p-5"><p class="font-display font-bold mb-2">Accessibilité</p><p class="text-sm text-slate-600 dark:text-slate-300">Respect de prefers-reduced-motion.</p></div>
+          <div class="rounded-2xl bg-white/80 dark:bg-dark-card/80 border border-border dark:border-dark-border p-5"><p class="font-display font-bold mb-2">Lisibilité</p><p class="text-sm text-slate-600 dark:text-slate-300">La motion clarifie le parcours, elle ne le masque pas.</p></div>
+          <div class="rounded-2xl bg-white/80 dark:bg-dark-card/80 border border-border dark:border-dark-border p-5"><p class="font-display font-bold mb-2">Réutilisable</p><p class="text-sm text-slate-600 dark:text-slate-300">Patterns documentés et applicables aux pages AtlasNexus.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-12 md:py-14 bg-white dark:bg-dark-surface">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="framer-purple-card rounded-3xl border p-8 md:p-10 grid lg:grid-cols-[1fr_auto] gap-8 items-center">
+        <div><p class="text-primary font-display font-bold uppercase tracking-wide text-sm mb-3">Intégration AtlasNexus</p><h2 class="section-title font-display mb-4">Une page produit interne, pas une landing isolée.</h2><p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">Le lien `/framer-motion-ui/` reste une démonstration, mais l’expérience visuelle appartient maintenant au même système que la homepage, les démos web et OOBE × Ace Agent.</p></div>
+        <div class="flex flex-wrap gap-3 lg:justify-end"><a href="/" class="px-6 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary-dark">Retour Atlas Nexus</a><a href="https://github.com/AtlasNexusOps/framer-motion-ui" class="px-6 py-3 rounded-xl bg-white dark:bg-dark-card border border-border dark:border-dark-border font-bold hover:border-primary">Repo GitHub</a></div>
+      </div>
+    </div>
+  </section>
+</main>
+<footer class="py-10 border-t border-border dark:border-dark-border bg-white dark:bg-dark-surface"><div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row gap-3 md:items-center md:justify-between text-sm text-slate-500"><p>Atlas Nexus · Framer Motion UI</p><p>React · Framer Motion · Scroll reveals · Gestures · Performance</p></div></footer>
 <script>
-const { motion, AnimatePresence, useInView, useScroll, useTransform, useMotionValue, useSpring, useReducedMotion, animate, stagger } = window.Motion;
-const { useState, useEffect, useRef } = React;
-
-// ── Scroll Reveal Component ──
-function Reveal({ children, className = "", delay = 0 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-80px" });
-  return React.createElement(motion.div, {
-    ref,
-    initial: { opacity: 0, y: 40 },
-    animate: isInView ? { opacity: 1, y: 0 } : {},
-    transition: { duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] },
-    className
-  }, children);
-}
-
-// ── Parallax Section ──
-function ParallaxSection({ children, className = "" }) {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["12%", "-12%"]);
-  return React.createElement(motion.div, { ref, style: { y }, className }, children);
-}
-
-// ── Stagger List ──
-function StaggerList({ items }) {
-  const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.2 } } };
-  const item = { hidden: { opacity: 0, x: -20 }, show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: "easeOut" } } };
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-60px" });
-
-  return React.createElement(motion.ul, {
-    ref, variants: container, initial: "hidden", animate: isInView ? "show" : "hidden",
-    className: "space-y-3 list-none"
-  }, items.map((text, i) =>
-    React.createElement(motion.li, { key: i, variants: item, className: "flex items-center gap-3" },
-      React.createElement("span", { className: "w-2 h-2 bg-blue-400 rounded-full flex-shrink-0" }),
-      React.createElement("span", { className: "text-gray-300" }, text)
-    )
-  ));
-}
-
-// ── Animated Counter ──
-function AnimatedCounter({ to, label, duration = 2 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true });
-  const count = useMotionValue(0);
-  const rounded = useTransform(count, v => Math.round(v));
-  useEffect(() => { if (isInView) { const c = animate(count, to, { duration, ease: "easeOut" }); return c.stop; } }, [isInView]);
-  return React.createElement("div", { ref, className: "text-center" },
-    React.createElement("div", { className: "text-4xl font-extrabold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent" },
-      React.createElement(motion.span, null, rounded), "+"),
-    React.createElement("div", { className: "text-gray-500 text-sm mt-1" }, label)
-  );
-}
-
-// ── Fluid Card ──
-function FluidCard({ icon, title, desc }) {
-  return React.createElement(motion.div, {
-    whileHover: { scale: 1.02, y: -4 },
-    whileTap: { scale: 0.98 },
-    transition: { type: "spring", stiffness: 300, damping: 20 },
-    className: "bg-[#0f1420] border border-[#1a2040] rounded-2xl p-6 cursor-pointer hover:border-blue-500/30 transition-colors"
-  },
-    React.createElement("div", { className: "text-3xl mb-3" }, icon),
-    React.createElement("h3", { className: "text-lg font-bold mb-2" }, title),
-    React.createElement("p", { className: "text-gray-400 text-sm leading-relaxed" }, desc)
-  );
-}
-
-// ── Main App ──
-function App() {
-  const prefersReduced = useReducedMotion();
-
-  const cards = [
-    { icon: "🎯", title: "Entrance Animations", desc: "Staggered reveals that guide attention and create hierarchy on page load." },
-    { icon: "📜", title: "Scroll Triggers", desc: "Elements animate into view as the user scrolls, creating a narrative flow." },
-    { icon: "🖱️", title: "Interactive Gestures", desc: "Hover, tap, and drag interactions with spring physics for tactile feedback." },
-    { icon: "🔄", title: "Page Transitions", desc: "Seamless mount/unmount animations with AnimatePresence for routing." },
-    { icon: "📊", title: "Number Counters", desc: "Animated statistics that count up when scrolled into view." },
-    { icon: "🎨", title: "Layout Animations", desc: "Automatic reflow animations when elements are added, removed, or reordered." },
-    { icon: "🏔️", title: "Parallax Effects", desc: "Depth-based scroll animations that create immersion." },
-    { icon: "♿", title: "Accessible", desc: "Built-in useReducedMotion() support for users with motion sensitivity." },
-  ];
-
-  const features = [
-    "GPU-accelerated: only transform + opacity animated",
-    "Spring physics for natural-feeling interactions",
-    "Stagger orchestration for list reveals",
-    "AnimatePresence for mount/unmount transitions",
-    "Scroll-linked animations with useScroll/useTransform",
-    "Layout animations for automatic reflow",
-    "Gesture system: hover, tap, pan, drag",
-    "Zero-config exit animations",
-  ];
-
-  return React.createElement("div", { className: "min-h-screen" },
-
-    // ── HERO ──
-    React.createElement(motion.section, {
-      initial: prefersReduced ? {} : { opacity: 0 },
-      animate: { opacity: 1 },
-      transition: { duration: 0.8 },
-      className: "min-h-screen flex items-center justify-center relative overflow-hidden px-6"
-    },
-      React.createElement("div", { className: "absolute inset-0 bg-gradient-to-b from-blue-500/5 to-purple-500/5" }),
-      React.createElement("div", { className: "text-center relative z-10 max-w-3xl" },
-        React.createElement(motion.h1, {
-          initial: prefersReduced ? {} : { opacity: 0, y: 30 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] },
-          className: "text-5xl md:text-7xl font-extrabold tracking-tight leading-tight"
-        },
-          "Motion that ", React.createElement("span", { className: "bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent" }, "means"), " something"
-        ),
-        React.createElement(motion.p, {
-          initial: prefersReduced ? {} : { opacity: 0, y: 20 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.5, delay: 0.4 },
-          className: "text-xl text-gray-400 mt-6 leading-relaxed"
-        }, "Production-grade Framer Motion patterns for React. Purposeful animation that guides, communicates, and delights — without the jank."),
-        React.createElement(motion.div, {
-          initial: prefersReduced ? {} : { opacity: 0, y: 20 },
-          animate: { opacity: 1, y: 0 },
-          transition: { duration: 0.5, delay: 0.6 },
-          className: "flex gap-4 mt-10 justify-center flex-wrap"
-        },
-          React.createElement(motion.a, {
-            href: "https://github.com/AtlasNexusOps/framer-motion-ui",
-            target: "_blank",
-            whileHover: { scale: 1.05 },
-            whileTap: { scale: 0.97 },
-            className: "px-8 py-3.5 bg-blue-600 hover:bg-blue-500 rounded-xl font-semibold transition-colors no-underline text-white inline-block"
-          }, "GitHub"),
-          React.createElement(motion.a, {
-            href: "#patterns",
-            whileHover: { scale: 1.05 },
-            whileTap: { scale: 0.97 },
-            className: "px-8 py-3.5 border border-gray-600 hover:border-gray-400 rounded-xl font-semibold transition-colors no-underline text-white inline-block"
-          }, "View Patterns ↓")
-        )
-      )
-    ),
-
-    // ── COUNTERS ──
-    React.createElement("section", { className: "py-24 px-6" },
-      React.createElement("div", { className: "max-w-4xl mx-auto" },
-        React.createElement(Reveal, null,
-          React.createElement("h2", { className: "text-3xl font-bold text-center mb-16" },
-            "Proven ", React.createElement("span", { className: "text-blue-400" }, "Performance"))
-        ),
-        React.createElement("div", { className: "grid grid-cols-2 md:grid-cols-4 gap-8" },
-          React.createElement(Reveal, { delay: 0 }, React.createElement(AnimatedCounter, { to: 60, label: "FPS Guaranteed" })),
-          React.createElement(Reveal, { delay: 0.1 }, React.createElement(AnimatedCounter, { to: 0, label: "Layout Reflows" })),
-          React.createElement(Reveal, { delay: 0.2 }, React.createElement(AnimatedCounter, { to: 11, label: "Animation Patterns" })),
-          React.createElement(Reveal, { delay: 0.3 }, React.createElement(AnimatedCounter, { to: 100, label: "GPU Accelerated" }))
-        )
-      )
-    ),
-
-    // ── PATTERNS CARDS ──
-    React.createElement("section", { id: "patterns", className: "py-24 px-6 bg-[#060912]" },
-      React.createElement("div", { className: "max-w-6xl mx-auto" },
-        React.createElement(Reveal, null,
-          React.createElement("h2", { className: "text-3xl font-bold text-center mb-4" }, "Animation Patterns"),
-          React.createElement("p", { className: "text-gray-400 text-center mb-16 max-w-xl mx-auto" }, "Ready-to-use components for every motion need. Hover the cards.")
-        ),
-        React.createElement("div", { className: "grid md:grid-cols-2 lg:grid-cols-4 gap-5" },
-          cards.map((card, i) =>
-            React.createElement(Reveal, { key: i, delay: i * 0.05 },
-              React.createElement(FluidCard, { icon: card.icon, title: card.title, desc: card.desc })
-            )
-          )
-        )
-      )
-    ),
-
-    // ── STAGGER LIST ──
-    React.createElement("section", { className: "py-24 px-6" },
-      React.createElement("div", { className: "max-w-4xl mx-auto" },
-        React.createElement(Reveal, null,
-          React.createElement("h2", { className: "text-3xl font-bold text-center mb-16" },
-            "Delivery ", React.createElement("span", { className: "text-purple-400" }, "Checklist"))
-        ),
-        React.createElement(StaggerList, { items: features })
-      )
-    ),
-
-    // ── PARALLAX CTA ──
-    React.createElement("section", { className: "py-32 px-6 relative overflow-hidden" },
-      React.createElement("div", { className: "absolute inset-0 bg-gradient-to-r from-blue-600/10 to-purple-600/10" }),
-      React.createElement(ParallaxSection, { className: "max-w-3xl mx-auto text-center relative z-10" },
-        React.createElement("h2", { className: "text-4xl font-extrabold mb-6" }, "Ready to add life to your UI?"),
-        React.createElement("p", { className: "text-xl text-gray-400 mb-10" }, "Clone the repo, read the skill, ship better animations today."),
-        React.createElement(motion.a, {
-          href: "https://github.com/AtlasNexusOps/framer-motion-ui",
-          target: "_blank",
-          whileHover: { scale: 1.05 },
-          whileTap: { scale: 0.97 },
-          className: "px-10 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-bold text-lg hover:from-blue-500 hover:to-purple-500 transition-all no-underline text-white inline-block shadow-lg shadow-purple-500/20"
-        }, "Get Started →")
-      )
-    ),
-
-    // ── FOOTER ──
-    React.createElement("footer", { className: "py-12 text-center text-gray-600 text-sm border-t border-[#1a2040]" },
-      "Framer Motion UI · Built by ", React.createElement("a", { href: "https://github.com/AtlasNexusOps", className: "text-blue-400 hover:underline" }, "Atlas Nexus"), " · Powered by Framer Motion"
-    )
-  );
-}
-
-ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(App));
+if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.classList.add('dark');
+document.getElementById('theme-toggle').addEventListener('click',()=>{document.documentElement.classList.toggle('dark');localStorage.setItem('theme',document.documentElement.classList.contains('dark')?'dark':'light')});
+const observer = new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting) entry.target.classList.add('visible')})},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 </script>
 </body>
 </html>
