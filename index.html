@@ -29,6 +29,16 @@ tailwind.config = {
   .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 32px -6px rgba(37,99,235,0.1); border-color: #2563EB; }
   a, button, .card-hover { transition: all 200ms ease; }
   *:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; border-radius: 4px; }
+
+  /* ── Section title accent underline ── */
+  .section-title { position: relative; padding-bottom: 0.5rem; }
+  .section-title::after { content: ""; position: absolute; bottom: 0; left: 0; width: 3rem; height: 3px; border-radius: 2px; background: linear-gradient(90deg, #2563EB, #059669); }
+  .dark .section-title::after { background: linear-gradient(90deg, #60A5FA, #34D399); }
+
+  /* ── Small card dark mode ── */
+  .dark a.border.border-border.rounded-xl { border-color: #334155; }
+  .dark a.border.border-border.rounded-xl:hover { border-color: #3B82F6; }
+
   .reveal { opacity: 1; transform: translateY(0); transition: opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1), transform 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .hero-stagger > * { opacity: 0; transform: translateY(30px); animation: heroFadeIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
