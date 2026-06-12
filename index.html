@@ -6,19 +6,12 @@
 <link rel="icon" type="image/svg+xml" href="/framer-motion-ui/favicon.svg">
 <link rel="shortcut icon" href="/framer-motion-ui/favicon.svg">
 <link rel="alternate icon" type="image/svg+xml" href="/favicon.svg">
-<title>Framer Motion UI — Atlas Nexus</title>
-<link rel="canonical" href="https://atlasnexus.tech/framer-motion-ui/">
-<meta name="description" content="Page interne Atlas Nexus pour Framer Motion UI : patterns d’animation React, scroll reveals, gestures, transitions et delivery checklist.">
-<script src="https://cdn.tailwindcss.com"></script>
+<title>Atlas Nexus — React pages & Framer Motion</title>
+<meta name="description" content="Pages React animées et interfaces Framer Motion premium pour landing pages, démos et prototypes.">
+<link rel="stylesheet" href="/css/site.css?v=4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200;0,6..12,300;0,6..12,400;0,6..12,500;0,6..12,600;0,6..12,700;0,6..12,800;1,6..12,400;1,6..12,600;1,6..12,700&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-  darkMode: 'class',
-  theme: { extend: { fontFamily: { display: ['Rubik','sans-serif'], body: ['Nunito Sans','sans-serif'] }, colors: { primary:'#2563EB','primary-dark':'#1D4ED8', secondary:'#3B82F6', accent:'#059669','accent-dark':'#047857', surface:'#F8FAFC', muted:'#F1F5FD', border:'#E4ECFC', foreground:'#0F172A','dark-surface':'#0B1120','dark-card':'#111827','dark-elevated':'#1A2235','dark-border':'#1E293B','dark-muted':'#334155','dark-foreground':'#F1F5F9','dark-dim':'#94A3B8' } } }
-}
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600;700;900&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   .hero-title { font-size: clamp(2.45rem, 6.6vw, 5.15rem); font-weight: 900; letter-spacing: -0.055em; line-height: 1.08; overflow: visible; }
   .gradient-text { background: linear-gradient(135deg, #2563EB 0%, #059669 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
@@ -107,6 +100,43 @@ tailwind.config = {
   .dark .market-card { background: linear-gradient(145deg, #111827 0%, #111d30 52%, #0e1f2d 100%); border-color: rgba(59,130,246,.25)!important; box-shadow: 0 18px 52px -34px rgba(0,0,0,.6); }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms!important; transition-duration: 0.01ms!important; } .reveal { opacity: 1; transform: none; } .hero-stagger > * { opacity: 1; transform: none; animation: none; } }
 </style>
+
+<link rel="canonical" href="https://atlasnexus.tech/framer-motion-ui/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Atlas Nexus">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="Atlas Nexus — React pages & Framer Motion">
+<meta property="og:description" content="Pages React animées et interfaces Framer Motion premium pour landing pages, démos et prototypes.">
+<meta property="og:url" content="https://atlasnexus.tech/framer-motion-ui/">
+<meta property="og:image" content="https://atlasnexus.tech/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Atlas Nexus — React pages & Framer Motion">
+<meta name="twitter:description" content="Pages React animées et interfaces Framer Motion premium pour landing pages, démos et prototypes.">
+<meta name="twitter:image" content="https://atlasnexus.tech/assets/og-image.png">
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://atlasnexus.tech/framer-motion-ui/#service",
+  "name": "React pages · Framer Motion",
+  "url": "https://atlasnexus.tech/framer-motion-ui/",
+  "description": "Pages React animées et interfaces Framer Motion premium pour landing pages, démos et prototypes.",
+  "provider": {
+    "@id": "https://atlasnexus.tech/#business"
+  },
+  "areaServed": {
+    "@type": "Country",
+    "name": "France"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "EUR",
+    "price": "50",
+    "availability": "https://schema.org/InStock",
+    "url": "https://atlasnexus.tech/framer-motion-ui/"
+  }
+}</script>
 </head>
 <body class="font-body bg-white dark:bg-dark-surface text-foreground dark:text-dark-foreground antialiased overflow-x-hidden">
 <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-dark-surface/90 backdrop-blur-xl border-b border-border dark:border-dark-border">
@@ -267,5 +297,7 @@ document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
 const counterObserver = new IntersectionObserver((entries)=>{entries.forEach(entry=>{if(entry.isIntersecting) animateCount(entry.target)})},{threshold:.35});
 document.querySelectorAll('.count-up').forEach(el=>counterObserver.observe(el));
 </script>
+
+<a href="/#contact" class="fixed bottom-4 left-4 right-4 z-50 sm:hidden inline-flex items-center justify-center rounded-full bg-primary px-5 py-3 text-sm font-bold text-white shadow-2xl shadow-blue-900/20" aria-label="Demander un devis Atlas Nexus">Demander un devis →</a>
 </body>
 </html>
