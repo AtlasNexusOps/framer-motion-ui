@@ -18,9 +18,9 @@
   .glow-word { position: relative; display: inline-block; overflow: visible; padding: .035em .02em .13em .02em; margin: -.035em -.02em -.07em -.02em; background: linear-gradient(110deg, #0F172A 0%, #2563EB 32%, #7C3AED 56%, #059669 82%, #0F172A 100%); background-size: 240% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: agenticGlow 3.8s ease-in-out infinite; }
   @keyframes agenticGlow { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
   .section-title { font-size: clamp(1.8rem, 4.5vw, 3rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.1; }
-  .card-hover { transition: all 250ms ease; }
+  .card-hover { transition: transform 250ms cubic-bezier(0,0,.2,1), box-shadow 250ms cubic-bezier(0,0,.2,1), border-color 150ms cubic-bezier(0,0,.2,1); }
   .card-hover:hover { transform: translateY(-4px); box-shadow: 0 12px 32px -6px rgba(37,99,235,0.1); border-color: #2563EB; }
-  a, button, .card-hover { transition: all 200ms ease; }
+  a, button { transition: color 150ms cubic-bezier(0,0,.2,1), background-color 150ms cubic-bezier(0,0,.2,1), border-color 150ms cubic-bezier(0,0,.2,1), transform 150ms cubic-bezier(0,0,.2,1); }
   *:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; border-radius: 4px; }
 
   /* ── Section title accent underline ── */
@@ -45,10 +45,20 @@
   .framer-purple-card:hover { box-shadow: 0 22px 70px -32px rgba(124,58,237,.68); border-color: rgba(124,58,237,.40)!important; }
   .framer-purple-card > * { position: relative; }
   .market-card { background: linear-gradient(145deg, #ffffff 0%, #f7fbff 52%, #eef8ff 100%); border-color: rgba(37,99,235,.22)!important; box-shadow: 0 18px 52px -34px rgba(37,99,235,.55); }
-  .motion-dot { width: .65rem; height: .65rem; border-radius: 999px; background: linear-gradient(135deg,#2563EB,#7C3AED); box-shadow: 0 0 0 8px rgba(37,99,235,.08); }
-  .orbit { position:absolute; border:1px solid rgba(124,58,237,.22); border-radius:999px; animation:spin 16s linear infinite; }
+  .motion-scene { position: relative; isolation: isolate; }
+  .motion-scene::before { content:""; position:absolute; z-index:0; inset:-35% -20%; pointer-events:none; background:linear-gradient(105deg,transparent 36%,rgba(124,58,237,.12) 48%,rgba(5,150,105,.09) 52%,transparent 64%); transform:translateX(-55%) rotate(-8deg); animation:sceneSweep 6s cubic-bezier(.4,0,.2,1) infinite; }
+  .motion-dot { z-index:3; width:.65rem; height:.65rem; border-radius:999px; background:linear-gradient(135deg,#2563EB,#7C3AED); box-shadow:0 0 0 8px rgba(37,99,235,.08),0 0 20px rgba(124,58,237,.28); animation:dotHalo 2.8s cubic-bezier(.4,0,.2,1) infinite; }
+  .motion-dot::after { content:""; position:absolute; inset:-.72rem; border:1px solid rgba(124,58,237,.32); border-radius:999px; opacity:.15; transform:scale(.58); animation:dotRing 2.8s cubic-bezier(0,0,.2,1) infinite; }
+  .dot-delay-2,.dot-delay-2::after{animation-delay:-.7s}.dot-delay-3,.dot-delay-3::after{animation-delay:-1.4s}.dot-delay-4,.dot-delay-4::after{animation-delay:-2.1s}
+  .fm-core { position:relative; z-index:2; animation:fmCoreMotion 6.4s cubic-bezier(.4,0,.2,1) infinite; }
+  .orbit { z-index:1; position:absolute; border:1px solid rgba(124,58,237,.22); border-radius:999px; animation:spin 16s linear infinite; }
   .orbit:nth-child(2){animation-duration:22s; animation-direction:reverse; border-color:rgba(5,150,105,.18)}
+  .orbit::after { content:""; position:absolute; top:50%; left:-.24rem; width:.48rem; height:.48rem; margin-top:-.24rem; border-radius:999px; background:linear-gradient(135deg,#7C3AED,#2563EB); box-shadow:0 0 16px rgba(124,58,237,.55); }
   @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes sceneSweep { 0%,18%{transform:translateX(-55%) rotate(-8deg);opacity:0} 42%{opacity:1} 70%,100%{transform:translateX(55%) rotate(-8deg);opacity:0} }
+  @keyframes dotHalo { 0%,100%{transform:scale(1);box-shadow:0 0 0 8px rgba(37,99,235,.08),0 0 18px rgba(124,58,237,.22)} 50%{transform:scale(1.18);box-shadow:0 0 0 13px rgba(124,58,237,0),0 0 30px rgba(124,58,237,.58)} }
+  @keyframes dotRing { 0%{opacity:.5;transform:scale(.5)} 72%,100%{opacity:0;transform:scale(1.35)} }
+  @keyframes fmCoreMotion { 0%,100%{transform:translateY(0) rotate(6deg) scale(1)} 35%{transform:translateY(-6px) rotate(1deg) scale(1.035)} 68%{transform:translateY(2px) rotate(9deg) scale(.99)} }
 
   .metric-number { font-variant-numeric: tabular-nums; letter-spacing: -.04em; }
   .float-card { animation: floatCard 4.8s ease-in-out infinite; transform-origin: center; }
@@ -61,7 +71,10 @@
   .timeline-rail { position: relative; }
   .timeline-rail::before { content:""; position:absolute; left: 1rem; top:.5rem; bottom:.5rem; width:2px; background: linear-gradient(#2563EB, #7C3AED, #059669); opacity:.35; }
   .timeline-step { position:relative; padding-left:3rem; }
-  .timeline-step::before { content:""; position:absolute; left:.68rem; top:.35rem; width:.7rem; height:.7rem; border-radius:999px; background:linear-gradient(135deg,#2563EB,#7C3AED); box-shadow:0 0 0 7px rgba(124,58,237,.12); }
+  .timeline-step::before { content:""; position:absolute; z-index:2; left:.68rem; top:.35rem; width:.7rem; height:.7rem; border-radius:999px; background:linear-gradient(135deg,#2563EB,#7C3AED); box-shadow:0 0 0 7px rgba(124,58,237,.12),0 0 20px rgba(124,58,237,.35); }
+  .timeline-step::after { content:""; position:absolute; z-index:1; left:.36rem; top:.03rem; width:1.34rem; height:1.34rem; border:1px solid rgba(124,58,237,.38); border-radius:999px; animation:stackDotHalo 2.6s cubic-bezier(0,0,.2,1) infinite; }
+  .timeline-step:nth-child(2)::after{animation-delay:-.65s}.timeline-step:nth-child(3)::after{animation-delay:-1.3s}.timeline-step:nth-child(4)::after{animation-delay:-1.95s}
+  @keyframes stackDotHalo { 0%{opacity:.5;transform:scale(.62)} 72%,100%{opacity:0;transform:scale(1.42)} }
   .spring-pill { position: relative; overflow: hidden; }
   .spring-pill span { display:inline-block; animation: pillBreathe 2.6s cubic-bezier(.34,1.56,.64,1) infinite; }
   @keyframes pillBreathe { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
@@ -98,7 +111,7 @@
   .dark .glow-word { background: linear-gradient(110deg, #60A5FA 0%, #818CF8 28%, #C084FC 52%, #34D399 78%, #60A5FA 100%); background-size: 240% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
   .dark .framer-purple-card { background: linear-gradient(145deg, #111827 0%, #1a1530 52%, #241442 100%); border-color: rgba(167,139,250,.28)!important; box-shadow: 0 18px 52px -34px rgba(0,0,0,.6); }
   .dark .market-card { background: linear-gradient(145deg, #111827 0%, #111d30 52%, #0e1f2d 100%); border-color: rgba(59,130,246,.25)!important; box-shadow: 0 18px 52px -34px rgba(0,0,0,.6); }
-  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms!important; transition-duration: 0.01ms!important; } .reveal { opacity: 1; transform: none; } .hero-stagger > * { opacity: 1; transform: none; animation: none; } }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms!important; transition-duration: 0.01ms!important; } .reveal { opacity: 1; transform: none; } .hero-stagger > * { opacity: 1; transform: none; animation: none; } .motion-dot,.motion-dot::after,.fm-core,.orbit,.orbit::after,.motion-scene::before,.timeline-step::after { animation: none!important; } .fm-core { transform:rotate(6deg); } }
 </style>
 
 <link rel="canonical" href="https://atlasnexus.tech/framer-motion-ui/">
@@ -142,7 +155,7 @@
 <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-dark-surface/90 backdrop-blur-xl border-b border-border dark:border-dark-border">
   <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
     <a href="/" class="flex items-center gap-2 font-display font-bold text-lg" aria-label="Atlas Nexus accueil">
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" class="text-primary"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.7 6.7 0 1 0 9.8 9.8Z" fill="currentColor"/></svg>
+      <img src="/atlas-logo.png?v=20260527" width="32" height="32" alt="" class="h-8 w-8 object-contain">
       Atlas Nexus
     </a>
     <div class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-600 dark:text-slate-300">
@@ -172,13 +185,13 @@
         </div>
       </div>
       <div class="framer-purple-card rounded-3xl p-5 md:p-6 border min-h-[300px] flex flex-col justify-between">
-        <div class="relative h-36 md:h-40 rounded-2xl bg-white/70 dark:bg-dark-card/70 border border-border dark:border-dark-border overflow-hidden mb-4">
+        <div class="motion-scene relative h-36 md:h-40 rounded-2xl bg-white/70 dark:bg-dark-card/70 border border-border dark:border-dark-border overflow-hidden mb-4">
           <div class="orbit left-1/2 top-1/2 w-52 h-52 -ml-26 -mt-26"></div>
           <div class="orbit left-1/2 top-1/2 w-32 h-32 -ml-16 -mt-16"></div>
           <div class="absolute inset-0 grid place-items-center">
-            <div class="w-24 h-24 rounded-3xl bg-gradient-to-br from-primary via-purple-500 to-accent shadow-2xl shadow-purple-500/30 rotate-6 grid place-items-center text-white font-display font-black text-3xl">FM</div>
+            <div class="fm-core w-24 h-24 rounded-3xl bg-gradient-to-br from-primary via-purple-500 to-accent shadow-2xl shadow-purple-500/30 grid place-items-center text-white font-display font-black text-3xl">FM</div>
           </div>
-          <div class="absolute left-8 top-8 motion-dot"></div><div class="absolute right-10 top-16 motion-dot"></div><div class="absolute left-16 bottom-10 motion-dot"></div><div class="absolute right-20 bottom-8 motion-dot"></div>
+          <div class="absolute left-8 top-8 motion-dot dot-delay-1"></div><div class="absolute right-10 top-16 motion-dot dot-delay-2"></div><div class="absolute left-16 bottom-10 motion-dot dot-delay-3"></div><div class="absolute right-20 bottom-8 motion-dot dot-delay-4"></div>
         </div>
         <div class="grid grid-cols-3 gap-3">
           <div class="float-card rounded-2xl bg-white/80 dark:bg-dark-card/80 border border-border dark:border-dark-border p-4"><p class="metric-number text-2xl font-display font-black text-primary"><span class="count-up" data-target="12" data-start="4" data-duration="3600">12</span></p><p class="text-xs text-slate-600 dark:text-slate-300 font-semibold">variantes motion</p></div>
