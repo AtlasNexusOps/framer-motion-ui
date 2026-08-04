@@ -72,9 +72,9 @@
   .timeline-rail::before { content:""; position:absolute; left: 1rem; top:.5rem; bottom:.5rem; width:2px; background: linear-gradient(#2563EB, #7C3AED, #059669); opacity:.35; }
   .timeline-step { position:relative; padding-left:3rem; }
   .timeline-step::before { content:""; position:absolute; z-index:2; left:.68rem; top:.35rem; width:.7rem; height:.7rem; border-radius:999px; background:linear-gradient(135deg,#2563EB,#7C3AED); box-shadow:0 0 0 7px rgba(124,58,237,.12),0 0 20px rgba(124,58,237,.35); }
-  .timeline-step::after { content:""; position:absolute; z-index:1; left:.36rem; top:.03rem; width:1.34rem; height:1.34rem; border:1px solid rgba(124,58,237,.38); border-radius:999px; animation:stackDotHalo 2.6s cubic-bezier(0,0,.2,1) infinite; }
+  .timeline-step::after { content:""; position:absolute; z-index:1; left:.36rem; top:.03rem; width:1.34rem; height:1.34rem; border-radius:999px; background:transparent; box-shadow:0 0 0 1.5px rgba(124,58,237,.5); opacity:0; animation:stackDotHalo 2.6s cubic-bezier(0,0,.2,1) infinite; will-change:transform,opacity; }
   .timeline-step:nth-child(2)::after{animation-delay:-.65s}.timeline-step:nth-child(3)::after{animation-delay:-1.3s}.timeline-step:nth-child(4)::after{animation-delay:-1.95s}
-  @keyframes stackDotHalo { 0%{opacity:.5;transform:scale(.62)} 72%,100%{opacity:0;transform:scale(1.42)} }
+  @keyframes stackDotHalo { 0%{opacity:0;transform:scale(.55)} 28%{opacity:.75} 72%,100%{opacity:0;transform:scale(1.5)} }
   .spring-pill { position: relative; overflow: hidden; }
   .spring-pill span { display:inline-block; animation: pillBreathe 2.6s cubic-bezier(.34,1.56,.64,1) infinite; }
   @keyframes pillBreathe { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-2px); } }
@@ -279,7 +279,7 @@
   <section class="py-12 md:py-14 bg-white dark:bg-dark-surface">
     <div class="max-w-7xl mx-auto px-6">
       <div class="framer-purple-card rounded-3xl border p-8 md:p-10 grid lg:grid-cols-[1fr_auto] gap-8 items-center">
-        <div><p class="text-primary font-display font-bold uppercase tracking-wide text-sm mb-3">Motion utilisable</p><h2 class="section-title font-display mb-4">Un kit Framer Motion branché sur l’interface Atlas.</h2><p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">Le scope est clair : transformer les pages React en expériences plus lisibles, plus premium et plus tactiles, avec des patterns prêts à adapter aux offres, produits et démos AtlasNexus.</p></div>
+        <div><p class="text-primary font-display font-bold uppercase tracking-wide text-sm mb-3">Motion utilisable</p><h2 class="section-title font-display mb-4">Un kit Framer Motion branché sur l’interface Atlas.</h2><p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed max-w-3xl">Le scope est clair : transformer les pages React en expériences plus lisibles, plus premium et plus tactiles, avec des patterns prêts à adapter aux offres, produits et démos de votre site.</p></div>
         <div class="flex flex-wrap gap-3 lg:justify-end"><a href="/" class="px-6 py-3 rounded-xl bg-primary text-white font-bold hover:bg-primary-dark">Retour Atlas Nexus</a><a href="https://github.com/AtlasNexusTech/framer-motion-ui" class="px-6 py-3 rounded-xl bg-white dark:bg-dark-card border border-border dark:border-dark-border font-bold hover:border-primary">Repo GitHub</a></div>
       </div>
     </div>
